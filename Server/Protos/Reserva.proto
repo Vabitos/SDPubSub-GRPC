@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+option csharp_namespace = "Server";
+
+package greet;
+
+// The greeting service definition.
+service ReservaServ {
+
+  rpc CriarReserva (DadosReserva) returns (Guardada);
+  rpc MudarEstado (EstadoNovo) returns (Guardada);
+  rpc MudarModalidade (ModalidadeNova) returns (Guardada);
+  rpc Login (DadosConta) returns (Contaguardada);
+  rpc LerReservas (Pedido) returns (ListaReservs);
+  rpc LerOperadores (Null) returns (ListaOps);
+  rpc MostrarReservasOp (Null) returns (ListShowOp);
+}
+
+message DadosConta
+{
+    string username = 1;
+    string Password = 2;
+}
+
+message Contaguardada
+{
+    bool Admin = 1;
+    bool logado = 2;
+}
+
+// The request message containing the user's name.
+message DadosReserva 
+{
+  string domicilio = 1;
+  string modalidade = 2;
+  string username = 4;
+  string password = 5;
+}
+
+// The response message containing the greetings.
+message Guardada 
+{
+  bool Sucesso = 1;
+}
+
+//----------------- EM PUB-SUB??? ----------------------------/
+message EstadoNovo
+{
+    string username = 1;
+    string Pedido = 2; 
+    string domicilio = 3;
+}
+
+message ModalidadeNova
+{
+    string username = 1;
+    string operadora = 2;
+    string Modalidade = 3; 
+}
+
+//-------------------------------------------------------/
+
+message ReservaModel
+{
+    string IdAdministrativo = 1;
+    string opOrigem = 2;
+    string operadora = 3;
+    string domicilio = 4;
+    string estado = 5;
+    string modalidade = 6;
+    string DataReserva = 7;
+}
+
+message ListShowOp
+{
+    repeated ReservasShowOpModel list = 1;
+}
+
+message ReservasShowOpModel
+{
+    string domicilio = 1;
+    string estado = 2;
+    string DataReserva = 3;
+    string username = 4;
+}
+
+message OperadorModel
+{
+    string username = 1;
+    string operadora = 2;
+    string password = 3;
+    bool Admin = 4;
+}
+
+message Pedido
+{
+    string mensagem = 1;
+}
+
+message ListaOps{
+    repeated OperadorModel repeats = 1;
+}
+
+message ListaReservs{
+    repeated ReservaModel repeats = 1;
+}
+
+message Null{
+
+}
